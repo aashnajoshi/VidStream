@@ -141,3 +141,5 @@ TINYMCE_DEFAULT_CONFIG = {
     'menubar': 'edit insert format',
     'statusbar': False,
 }
+
+EMAIL_HOST_USER = 'aashna.joshi03@gmail.com'

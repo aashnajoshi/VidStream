@@ -12,6 +12,21 @@
     <div>
         <p>About Page</p>
     </div>
+    {% elif title == 'Contact' %}
+    <div>
+        <form method="post" enctype="multipart/form-data" class="form-group rounded p-3 shadow-lg">
+            {% csrf_token %}
+            <label for="email">Your Email:</label>
+            <input class="form-control" type="text" id="recipients" name="recipients" required><br>
+            <label for="subject">Subject:</label>
+            <input class="form-control" type="text" id="subject" name="subject" required><br>
+            <label for="message">Message:</label><br>
+            <textarea class="form-control" id="message" name="message" required></textarea><br>
+            <label for="file_path">Attachment (If Any):</label>
+            <input class="form-control" type="file" id="file_path" name="file_path"><br>
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </form>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
