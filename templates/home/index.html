@@ -4,5 +4,14 @@
 {% block content %}
 <div>
     <p>This is Content for {{title}} Page</p>
+    {% if title == 'Home' %}
+    <div>
+        <p>Home Page</p>
+    </div>
+    {% elif title == 'About' %}
+    <div>
+        <p>About Page</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
