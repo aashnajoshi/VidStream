@@ -5,10 +5,10 @@ from .models import Contact
 
 # Create your views here.
 def home(request):
-    return render(request, 'home/index.html', context={'title': 'Home'})
+    return render(request, 'home/home.html', context={'title': 'Home'})
 
 def about(request):
-    return render(request, 'home/index.html', context={'title': 'About'})
+    return render(request, 'home/about.html', context={'title': 'About'})
 
 def contact(request):
     if request.method == 'POST':
@@ -24,4 +24,4 @@ def contact(request):
             messages.success(request, 'Your message has been sent successfully!')
         return redirect('contact')
     else:
-        return render(request, 'home/index.html', context={'title': 'Contact'})
+        return render(request, 'home/contact.html', context={'title': 'Contact'})
