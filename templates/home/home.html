@@ -3,7 +3,36 @@
 
 {%block homeactive%} active {%endblock homeactive%}
 {% block content %}
-<div>
-    <p>This is Content for Home Page</p>
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="3000">
+            <img src="https://cdn.pixabay.com/photo/2019/08/28/12/20/fog-4436636_1280.jpg" class="d-block w-100 mt-2" alt="..." style="height: 30rem; width: auto;">
+        </div>
+        <div class="carousel-item" data-bs-interval="3000">
+            <img src="https://cdn.pixabay.com/photo/2018/10/02/16/12/nature-3719233_1280.jpg" class="d-block w-100 mt-2" alt="..." style="height: 30rem; width: auto;">
+        </div>
+        <div class="carousel-item" data-bs-interval="3000">
+            <img src="https://cdn.pixabay.com/photo/2018/04/28/22/03/tree-3358468_1280.jpg" class="d-block w-100 mt-2" alt="..." style="height: 30rem; width: auto;">
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 {% endblock content%}
