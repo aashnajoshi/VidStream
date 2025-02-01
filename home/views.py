@@ -25,3 +25,15 @@ def contact(request):
         return redirect('contact')
     else:
         return render(request, 'home/contact.html', context={'title': 'Contact'})
+
+def search(request):
+    query = request.GET.get('query')
+    if len(query) > 2:
+        allPosts = []
+    else:
+        allPostsTitle = [post.title for post in Post.objects.all()]
+        allPostsContent = [post.content for post in Post.objects.all()]
+        allPosts = [post for post in Post.objects.all() if query in post.title or query in post.content]
+    if len(allPosts) == 0:
+        messages.warning(request, 'No search results found. Please refine your query.')
+    return render(request, 'home/search.html', context={'title': 'Search', 'allPosts': allPosts, 'query': query})

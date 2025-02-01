@@ -1,0 +1,17 @@
+{%extends 'base.html' %}
+{%block title%}Search Results{%endblock title%}
+
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-dark alert-dismissible fade show mt-2" role="alert">
+    <strong>Message : </strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<h3 class="d-flex align-items-center justify-content-center mt-2">Search Results</h3>
+{% for posts in allPosts %}
+<h3>{{posts.title}}</h3>
+<p>{{posts.content}}</p>
+{% endfor %}
+
+{% endblock content%}
