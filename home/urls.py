@@ -1,5 +1,4 @@
 from django.urls import path, include
-from tinymce import urls as tinymce_urls
 from . import views
 
 urlpatterns = [
@@ -7,5 +6,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
-    path('tinymce/', include(tinymce_urls)),
+    path('signup/', views.signup, name='signup'),
+    path('signin/', views.signin, name='signin'),
 ]

@@ -3,12 +3,6 @@
 
 {%block contactactive%} active {%endblock contactactive%}
 {% block content %}
-{% for message in messages %}
-<div class="alert alert-dark alert-dismissible fade show mt-2" role="alert">
-    <strong>Message : </strong> {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endfor %}
 <h3 class="d-flex align-items-center justify-content-center mt-2">Contact Us!</h3>
 <form method="post" enctype="multipart/form-data" class="form-group rounded p-3 shadow-lg">
     {% csrf_token %}
