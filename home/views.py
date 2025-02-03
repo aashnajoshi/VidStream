@@ -1,9 +1,9 @@
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render,HttpResponse, redirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .models import Contact
+from stream.models import Stream
 
 # Home View
 def home(request):
@@ -37,54 +37,85 @@ def contact(request):
 def search(request):
     query = request.GET.get('query')
     if len(query) > 78:
-        allPosts = []
+        allStreams = []
     else:
-        allPostsTitle = [post.title for post in Post.objects.all()]
-        allPostsContent = [post.content for post in Post.objects.all()]
-        allPosts = [post for post in Post.objects.all() if query in post.title or query in post.content]
-    if len(allPosts) == 0:
+        allStreamsTitle = [stream.title for stream in Stream.objects.all()]
+        allStreamsDescription = [stream.description for stream in Stream.objects.all()]
+        allStreamsGenre = [stream.genre for stream in Stream.objects.all()]
+        
+        allStreams = [stream for stream in Stream.objects.all() if query.lower() in stream.title.lower() or query.lower() in stream.description.lower() or query.lower() in stream.genre.lower()]
+
+    if len(allStreams) == 0:
         messages.warning(request, f'No search results found for "{query}". Please refine your query.')
 
-    return render(request, 'home/search.html', context={'title': 'Search', 'allPosts': allPosts, 'query': query})
+    return render(request, 'home/search.html', context={'title': 'Search', 'allStreams': allStreams, 'query': query})
 
-# Signup View
+# SignUp View
 def signup(request):
     if request.method == 'POST':
-        user_email = request.POST.get('email')
-        user_password = request.POST.get('password')
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirmPassword']
 
-        if len(user_email) < 3 or len(user_password) < 4:
-            messages.error(request, 'Invalid form data!')
-            return redirect('signup')
+        # Basic form validation
+        if len(username) < 4 or len(password) < 4 or username.isalnum() == False:
+            messages.error(request, 'Username/Password must be at least 4 characters long. And Username should only contain alphanumeric characters.')
+            return render(request, "home/home.html")
 
-        # Check if email already exists
-        if User.objects.filter(username=user_email).exists():
-            messages.error(request, 'Email already in use!')
-            return redirect('signup')
+        # Check if passwords match
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, "home/home.html")
 
-        # Create new user
-        user = User.objects.create_user(username=user_email, password=user_password)
+        # Check if the username or email already exists
+        if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+            messages.error(request, 'Username/Email already exists.')
+            return render(request, "home/home.html")
+
+        # Create the new user
+        user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
-        messages.success(request, 'Your account has been created successfully!')
-        return redirect('signin')
-
+        # Automatically log the user in after successful registration
+        login(request, user)
+        messages.success(request, f'Welcome, {user.username}! You have successfully Signed up.')
+        return render(request, "home/home.html")
     else:
-        return render(request, 'home/home.html', context={'title': 'Home'})
-        
-# Signin View
+        messages.error(request, '404 - Not Found')
+        return render(request, "home/home.html")
+
+# SignIn View
 def signin(request):
     if request.method == 'POST':
-        user_email = request.POST.get('email')
-        user_password = request.POST.get('password')
+        username_or_email = request.POST['username']
+        password = request.POST['password']
 
-        user = authenticate(username=user_email, password=user_password)
+        try:
+            user = User.objects.get(username=username_or_email)  # First try to find by username
+        except User.DoesNotExist:
+            try:
+                user = User.objects.get(email=username_or_email)  # If not found by username, try to find by email
+            except User.DoesNotExist:
+                messages.error(request, 'Invalid username/email or password.')
+                return render(request, "home/home.html")
+
+        # Authenticate the user with the found user object
+        user = authenticate(request, username=user.username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, 'You have been logged in successfully!')
-            return redirect('home')
+            messages.success(request, f'Welcome back, {user.username}!')
+            return render(request, "home/home.html")
         else:
-            messages.error(request, 'Invalid credentials!')
-            return redirect('signin')
+            messages.error(request, 'Invalid Credentials.')
+            return render(request, "home/home.html")
     else:
-        return render(request, 'home/home.html', context={'title': 'Home'})
+        messages.error(request, '404 - Not Found')
+        return render(request, "home/home.html")
+
+# SignOut View
+def signout(request):
+    if request.method == 'POST':
+        logout(request)
+        messages.success(request, 'You have been successfully logged out.')
+    return render(request, "home/home.html")

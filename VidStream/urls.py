@@ -10,6 +10,4 @@ urlpatterns = [
     path('debug/', include(debug_toolbar.urls)),
     path('home/', include('home.urls')),
     path('stream/', include('stream.urls')),
-]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
