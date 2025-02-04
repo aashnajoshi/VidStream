@@ -3,31 +3,37 @@
 
 {%block streamactive%} active {%endblock streamactive%}
 {% block content %}
-    {% if play_video %}
-        <!-- If 'play_video' flag is True, show the video player -->
-        <h1>{{ stream.title }}</h1>
-        <div class="video-player">
-            <video controls>
-                <source src="{{ stream.trailer_link }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+{% if play_video %}
+<!-- If 'play_video' flag is True, show the video player -->
+<h1>{{ stream.title }}</h1>
+<div class="video-player">
+    <video controls>
+        <source src="{{ stream.trailer_link }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+<p>{{ stream.description }}</p>
+<p>Genre: {{ stream.genre }}</p>
+<a href="{% url 'stream' stream.slug %}">Back to Stream Details</a>
+{% else %}
+<!-- List all streams (for the homepage) -->
+<div>
+    {% for stream in allStreams %}
+    <div class="video-item">
+        <h3>{{ stream.title }}</h3>
+        <img src="{{ stream.cover_image.url }}" alt="{{ stream.title }}">
         <p>{{ stream.description }}</p>
         <p>Genre: {{ stream.genre }}</p>
-        <a href="{% url 'stream' stream.slug %}">Back to Stream Details</a>
-    {% else %}
-        <!-- List all streams (for the homepage) -->
-        <div>
-            {% for stream in allStreams %}
-                <div class="video-item">
-                    <h3>{{ stream.title }}</h3>
-                    <img src="{{ stream.cover_image.url }}" alt="{{ stream.title }}">
-                    <p>{{ stream.description }}</p>
-                    <p>Genre: {{ stream.genre }}</p>
-                    <a href="{{ stream.trailer_link }}" target="_blank">Watch Trailer</a>
-                    <a href="{% url 'video_play' stream.id %}">Play</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+        <a href="{{ stream.trailer_link }}" target="_blank">Watch Trailer</a>
+        {% if user.is_authenticated %}
+        <!-- If user is logged in, show the Play button -->
+        <a href="{% url 'video_play' stream.id %}">Play</a>
+        {% else %}
+        <!-- If user is not logged in, show a Login button -->
+        <a href="/signin/" class="btn btn-primary">Login to Play</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock content %}

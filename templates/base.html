@@ -17,9 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link {%block homeactive%} {%endblock homeactive%} aria-current="page" href="/home/">Home</a></li>
-                    {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link {%block streamactive%} {%endblock streamactive%}" href="/stream/">Stream</a></li>
-                    {% endif %}
                     <li class="nav-item"><a class="nav-link {%block aboutactive%} {%endblock aboutactive%}" href="/about/">About</a></li>
                     <li class="nav-item"><a class="nav-link {%block contactactive%} {%endblock contactactive%}" href="/contact/">Contact</a></li>
                 </ul>
