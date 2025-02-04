@@ -1,10 +1,10 @@
 from django.contrib import admin
-from tinymce.widgets import TinyMCE
 from django.db import models
-from .models import *
+from .models import Contact
 
 class ContactAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': TinyMCE()},}
+    list_display = ('name', 'email', 'message', 'file_path', 'date_added')
+    search_fields = ('name', 'email', 'message')
+    list_filter = ('name','date_added')
 
 admin.site.register(Contact, ContactAdmin)

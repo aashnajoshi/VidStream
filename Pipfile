@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
-django-tinymce = "*"
 pillow = "*"
 
 [dev-packages]
