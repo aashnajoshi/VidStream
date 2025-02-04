@@ -22,7 +22,7 @@ def upload_video(request):
         genre = request.POST.get('genre')
         description = request.POST.get('description')
 
-        stream = Stream(title=title, cover_image=cover_image, video_file=video_file, trailer_link=trailer_link, genre=genre, description=description)
+        stream = Stream(title=title, cover_image=cover_image, video_file=video_file, trailer_link=trailer_link, genre=genre, description=description, uploaded_by=request.user.username)
         stream.save()
         messages.success(request, 'Video uploaded successfully')
 
@@ -33,6 +33,7 @@ def upload_video(request):
 def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
+        print(video)
     except Stream.DoesNotExist:
         return redirect('stream')
     
