@@ -4,8 +4,8 @@ from django.core.validators import FileExtensionValidator
 # Create your models here.
 class Stream(models.Model):
     title = models.CharField(max_length=255)
-    cover_image = models.ImageField(upload_to = 'media/covers/', validators = [FileExtensionValidator(allowed_extensions = ['jpeg', 'jpg', 'png'])])
-    video_file = models.FileField(upload_to = 'media/files', validators = [FileExtensionValidator(allowed_extensions = ['mp4', 'mkv'])])
+    cover_image = models.ImageField(upload_to = 'covers/', validators = [FileExtensionValidator(allowed_extensions = ['jpeg', 'jpg', 'png'])])
+    video_file = models.FileField(upload_to = 'files/', validators = [FileExtensionValidator(allowed_extensions = ['mp4', 'mkv'])])
     trailer_link = models.URLField(max_length=200)
     genre = models.CharField(max_length=100)
     description = models.TextField()

@@ -1,8 +1,11 @@
 from django.urls import path
 from . import views
+from home.views import signin, search
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Home page (list of all streams)
-    path('<str:slug>/', views.stream, name='stream'),  # Specific stream details
-    path('play/<int:id>/', views.video_play, name='video_play'),  # Play video
+    path('', views.home, name='home'),
+    path('upload/', views.upload_video, name='upload'),
+    path('search/', search, name='search'),
+    path('login/', signin, name='login'),
+    path('play/<int:video_id>/', views.video_play, name='video_play'),
 ]

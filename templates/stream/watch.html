@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Watch Video{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ video.title }}</h2>
+
+    <div class="video-container">
+        <video width="100%" controls>
+            <source src="{{ video.file.url }}" type="video/mp4">
+        </video>
+    </div>
+
+    <p><strong>Genre:</strong> {{ video.genre }}</p>
+    <p><strong>Description:</strong> {{ video.description }}</p>
+</div>
+{% endblock content %}

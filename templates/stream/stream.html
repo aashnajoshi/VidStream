@@ -1,39 +1,60 @@
-{%extends 'base.html' %}
-{%block title%}Stream{%endblock title%}
+{% extends 'base.html' %}
+{% block title %}Stream{% endblock title %}
 
-{%block streamactive%} active {%endblock streamactive%}
+{% block streamactive %} active {% endblock streamactive %}
 {% block content %}
-{% if play_video %}
-<!-- If 'play_video' flag is True, show the video player -->
-<h1>{{ stream.title }}</h1>
-<div class="video-player">
-    <video controls>
-        <source src="{{ stream.trailer_link }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-</div>
-<p>{{ stream.description }}</p>
-<p>Genre: {{ stream.genre }}</p>
-<a href="{% url 'stream' stream.slug %}">Back to Stream Details</a>
-{% else %}
-<!-- List all streams (for the homepage) -->
-<div>
-    {% for stream in allStreams %}
-    <div class="video-item">
-        <h3>{{ stream.title }}</h3>
-        <img src="{{ stream.cover_image.url }}" alt="{{ stream.title }}">
-        <p>{{ stream.description }}</p>
-        <p>Genre: {{ stream.genre }}</p>
-        <a href="{{ stream.trailer_link }}" target="_blank">Watch Trailer</a>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Video Library</h2>
         {% if user.is_authenticated %}
-        <!-- If user is logged in, show the Play button -->
-        <a href="{% url 'video_play' stream.id %}">Play</a>
+        <a href="{% url 'upload' %}" class="btn btn-dark">Upload Video</a>
         {% else %}
-        <!-- If user is not logged in, show a Login button -->
-        <a href="/signin/" class="btn btn-primary">Login to Play</a>
+        <a data-bs-toggle="modal" data-bs-target="#signInModal" class="btn btn-dark">Sign In to Upload</a>
         {% endif %}
     </div>
-    {% endfor %}
+    <div class="row">
+        {% for video in videos %}
+        <div class="col-md-3 mb-4">
+            <div class="card d-flex flex-column h-100">
+                <img src="{{ video.cover_image.url }}" class="card-img-top" alt="{{ video.title }}"
+                    style="object-fit: cover; height: 200px;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    <p class="card-text"><strong>Genre:</strong> {{ video.genre }}</p>
+                    <p class="card-text">{{ video.description|slice:":100" }}...</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'video_play' video.id %}" class="btn btn-outline-dark mt-auto">Watch Now</a>
+                    {% else %}
+                    <a class="btn btn-outline-dark mt-auto" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In
+                        Watch</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Pagination -->
+    {% if videos.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item{% if videos.number == 1 %} disabled{% endif %}">
+                <a class="page-link" href="?page={{ videos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            {% for page in videos.paginator.page_range %}
+            {% if page == videos.number %}
+            <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+            {% elif page >= videos.number|add:'-3' and page <= videos.number|add:'3' %} <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% elif page == videos.paginator.num_pages %}
+            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% elif page == videos.number|add:'-3' or page == videos.number|add:'3' %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item{% if videos.number == videos.paginator.num_pages %} disabled{% endif %}">
+                <a class="page-link" href="?page={{ videos.next_page_number }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock content %}

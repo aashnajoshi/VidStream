@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Upload Video{% endblock title %}
+
+{% block streamactive %} active {% endblock streamactive %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Upload Video</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Video File</label>
+            <input type="file" class="form-control" name="video_file" id="videoFileInput" accept=".mp4, .mkv" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="title" id="titleInput" required>
+                <div class="input-group-text">
+                    <input type="checkbox" name="useFileName" id="useFileName" required> Use file name
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Cover Image</label>
+            <input type="file" class="form-control" name="cover_image" accept=".jpeg, .jpg, .png" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trailer Link</label>
+            <input type="url" class="form-control" name="trailer_link" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Genre</label>
+            <input type="text" class="form-control" name="genre" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark mb-2">Upload Video</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("videoFileInput").addEventListener("change", function () {
+        const file = this.files[0];
+        const useFileName = document.getElementById("useFileName");
+        if (file && useFileName.checked) {
+            document.getElementById("titleInput").value = file.name.split('.').slice(0, -1).join('.'); // Remove file extension
+        }
+    });
+
+    document.getElementById("useFileName").addEventListener("change", function () {
+        const file = document.getElementById("videoFileInput").files[0];
+        const titleInput = document.getElementById("titleInput");
+
+        if (this.checked && file) {
+            titleInput.value = file.name.split('.').slice(0, -1).join('.'); // Remove file extension
+        } else {
+            titleInput.value = "";
+        }
+    });
+</script>
+{% endblock content %}
