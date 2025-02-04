@@ -2,11 +2,11 @@
 {% block title %}Watch Video{% endblock title %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container">
     <h2>{{ video.title }}</h2>
 
     <div class="video-container">
-        <video width="100%" controls>
+        <video height="500px" width="auto" controls>
             <source src="{{ video.video_file.url }}" type="video/mp4">
         </video>
     </div>
