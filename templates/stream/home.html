@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Stream{% endblock title %}
+{% load humanize %}
+
+{% block streamactive %} active {% endblock streamactive %}
+{% block content %}
+<section class="py-3 text-center container">
+    <!-- Heading and Description Section -->
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mx-auto">
+            <h1 class="fw-dark">Video Library</h1>
+            <p class="lead text-body-secondary">Discover a collection of videos below. Click on any video to watch and
+                enjoy!</p>
+        </div>
+    </div>
+
+    <!-- Upload Button positioned at the top-right corner -->
+    <div class="position-relative pb-3">
+        {% if user.is_authenticated %}
+        <a href="{% url 'upload' %}" class="btn btn-dark position-absolute top-0 end-0 m-3">Upload Video</a>
+        {% else %}
+        <a data-bs-toggle="modal" data-bs-target="#signInModal"
+            class="btn btn-dark position-absolute top-0 end-0 m-3">Sign In to Upload</a>
+        {% endif %}
+    </div>
+
+    <!-- Video Gallery Section with margin-top for spacing -->
+    <div class="row mt-5">
+        {% for video in videos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <!-- Thumbnail image -->
+                <div class="ratio ratio-4x3">
+                    <img src="{{ video.cover_image.url }}" class="card-img-top" alt="{{ video.title }}" style="object-fit: cover;">
+                </div>
+
+                <!-- Video details -->
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-center font-weight-bold">{{ video.title }}</h5>
+                    <p class="card-text" style="flex-grow: 1; overflow: hidden; text-overflow: ellipsis;">{{ video.description|slice:":100" }}...</p>
+
+                    <!-- Bottom section with button and date -->
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'video_play' video.id %}" class="btn btn-outline-dark btn-sm">Watch Now</a>
+                        {% else %}
+                        <a class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In to Watch</a>
+                        {% endif %}
+                        <p class="text-muted mb-0" style="font-size: 0.875rem;">Uploaded {{ video.created_at | naturaltime }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    <!-- Pagination -->
+    {% if videos.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item{% if videos.number == 1 %} disabled{% endif %}">
+                <a class="page-link" href="?page={{ videos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            {% for page in videos.paginator.page_range %}
+            {% if page == videos.number %}
+            <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+            {% elif page >= videos.number|add:'-3' and page <= videos.number|add:'3' %} <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% elif page == videos.paginator.num_pages %}
+            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% elif page == videos.number|add:'-3' or page == videos.number|add:'3' %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item{% if videos.number == videos.paginator.num_pages %} disabled{% endif %}">
+                <a class="page-link" href="?page={{ videos.next_page_number }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+</section>
+{% endblock content %}

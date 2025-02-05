@@ -1,17 +1,62 @@
 {% extends 'base.html' %}
+
 {% block title %}Watch Video{% endblock title %}
 
 {% block content %}
-<div class="container">
-    <h2>{{ video.title }}</h2>
-
-    <div class="video-container">
-        <video height="500px" width="auto" controls>
-            <source src="{{ video.video_file.url }}" type="video/mp4">
-        </video>
+<div class="container m-2">
+    <!-- 1. Heading Section -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="font-weight-bold">{{ video.title }}</h2>
+        </div>
     </div>
 
-    <p><strong>Genre:</strong> {{ video.genre }}</p>
-    <p><strong>Description:</strong> {{ video.description }}</p>
+    <!-- 2. Content Section (Video and Watch More Sidebar) -->
+    <div class="row">
+        <!-- Video Content (8 columns) -->
+        <div class="col-md-8">
+            <!-- Video Player -->
+            <div class="video-container mb-4">
+                <video class="w-100" height="auto" style="max-height: 400px;" controls>
+                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Video Details (Genre and Description) -->
+            <div class="card p-4 mb-4">
+                <!-- Featured Title and Description -->
+                <div>
+                    <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">{{ video.title }}</h3>
+                    <p><strong>Genre:</strong> <span class="text-muted">{{ video.genre }}</span></p>
+                    <p>{{ video.description }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Watch More Sidebar (4 columns) -->
+        <div class="col-md-4">
+            <div class="card">
+                <!-- Watch More Heading -->
+                <div class="card-header text-center bg-dark text-white">
+                    <h5>Watch More</h5>
+                </div>
+                <!-- Watch More Videos List -->
+                <div class="list-group list-group-flush">
+                    {% for other_video in videos %}
+                    {% if other_video != video %}
+                    <a href="{% url 'video_play' other_video.id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex align-items-center">
+                            <!-- Circular Thumbnail for the Video -->
+                            <img src="{{ other_video.cover_image.url }}" class="rounded-circle"
+                                style="width: 40px; height: 40px; object-fit: cover;" alt="{{ other_video.title }}">
+                            <span class="ml-3">{{ other_video.title }}</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

@@ -10,7 +10,7 @@ def home(request):
     page_number = request.GET.get('page') 
     page_obj = paginator.get_page(page_number)
     
-    return render(request, 'stream/stream.html', context={'videos': page_obj})
+    return render(request, 'stream/home.html', context={'videos': page_obj})
 
 @login_required
 def upload_video(request):
@@ -33,8 +33,9 @@ def upload_video(request):
 def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
-        print(video)
     except Stream.DoesNotExist:
         return redirect('stream')
     
-    return render(request, 'stream/watch.html', context={'video': video})
+    other_videos = Stream.objects.exclude(id=video_id)
+
+    return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos})
