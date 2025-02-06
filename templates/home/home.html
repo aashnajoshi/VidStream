@@ -13,13 +13,13 @@
     <!-- Carousel -->
     <div class="carousel-inner rounded-5 shadow mt-2" style="height: 32rem; width: auto;">
         <div class="carousel-item active" data-bs-interval="1800">
-            <img src="https://images.pexels.com/photos/9627169/pexels-photo-9627169.jpeg" class="d-block w-100" alt="...">
+            <img src="https://images.pexels.com/photos/9627169/pexels-photo-9627169.jpeg" class="d-block w-100" alt="Movie Night" style="object-fit: cover;">
         </div>
         <div class="carousel-item" data-bs-interval="1800">
-            <img src="https://cdn.pixabay.com/photo/2021/12/07/05/54/popcorn-6852316_1280.jpg" class="d-block w-100" alt="...">
+            <img src="https://cdn.pixabay.com/photo/2021/12/07/05/54/popcorn-6852316_1280.jpg" class="d-block w-100" alt="Enjoy Movies">
         </div>
         <div class="carousel-item" data-bs-interval="1800">
-            <img src="https://images.pexels.com/photos/7915357/pexels-photo-7915357.jpeg" class="d-block w-100" alt="...">
+            <img src="https://images.pexels.com/photos/7915357/pexels-photo-7915357.jpeg" class="d-block w-100" alt="Streaming">
         </div>
     </div>
     <!-- Controls -->
@@ -32,64 +32,75 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<!-- Center Heading and Section Below -->
+<!-- Welcome Section -->
 <div class="px-4 my-4 text-center">
-    <h1 class="display-4 fw-bold text-body-emphasis">Centered Heading</h1>
+    <h1 class="display-4 fw-bold text-body-emphasis">Welcome to VidStream!</h1>
     <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque vitae corporis, minus natus porro nesciunt neque inventore assumenda sint impedit eaque ea ab quasi reiciendis id deleniti animi sunt nostrum!</p>
+        <p class="lead mb-4">VidStream is your go-to platform for seamless video streaming. Watch the latest movies and TV shows for free! Share your content, discover new creators, and enjoy high-quality streaming anytime, anywhere.</p>
     </div>
 </div>
 <!-- Marketing messaging and featurettes -->
 <div class="container marketing">
-    <div class="row">
-        <div class="col-lg-4">
-            <img src="https://cdn.pixabay.com/photo/2016/11/21/12/51/mobile-phone-1845233_1280.jpg" class="rounded-circle" alt="Placeholder" width="150" height="150">
-            <h2 class="fw-normal">Heading 1</h2>
-            <p>Some representative placeholder content for the first column of text below the carousel.</p>
-            <button type="button" class="btn btn-dark btn-lg px-4 me-sm-3 fw-bold" onclick="window.location.href='/stream';">Stream</button>
+    <div class="row justify-content-center">
+        <!-- Stream Section -->
+        <div class="col-lg-4 d-flex flex-column align-items-center mb-4">
+            <div class="d-flex flex-column align-items-center h-100 justify-content-between">
+                <img src="https://cdn.pixabay.com/photo/2016/11/21/12/51/mobile-phone-1845233_1280.jpg" class="rounded-circle mb-3" alt="Stream Movies" width="150" height="150">
+                <h2 class="fw-normal text-center">Stream Your Favorite Movies</h2>
+                <p class="text-center flex-grow-1">Access thousands of movies and TV shows. Sign in and enjoy unlimited streaming for free!</p>
+                <button type="button" class="btn btn-dark btn-lg px-4 me-sm-3 fw-bold align-self-center" onclick="window.location.href='/stream';">Start Streaming</button>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <img src="https://cdn.pixabay.com/photo/2014/08/15/06/16/imprint-418594_1280.jpg" class="rounded-circle" alt="Placeholder" width="150" height="150">
-            <h2 class="fw-normal">Heading 2</h2>
-            <p>Another exciting bit of representative placeholder content for the second column.</p>
-            <button type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3 fw-bold" onclick="window.location.href='/about';">About</button>
+        <!-- About Section -->
+        <div class="col-lg-4 d-flex flex-column align-items-center mb-4">
+            <div class="d-flex flex-column align-items-center h-100 justify-content-between">
+                <img src="https://cdn.pixabay.com/photo/2014/08/15/06/16/imprint-418594_1280.jpg" class="rounded-circle mb-3" alt="About Us" width="150" height="150">
+                <h2 class="fw-normal text-center">About VidStream</h2>
+                <p class="text-center flex-grow-1">Learn more about how VidStream started, our mission, and how we strive to provide an exceptional streaming experience.</p>
+                <button type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3 fw-bold align-self-center" onclick="window.location.href='/about';">Learn More</button>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <img src="https://cdn.pixabay.com/photo/2015/01/25/21/02/phone-612061_1280.jpg" class="rounded-circle" alt="Placeholder" width="150" height="150">
-            <h2 class="fw-normal">Heading 3</h2>
-            <p>The third column of representative placeholder content for the carousel section.</p>
-            <button type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3 fw-bold" onclick="window.location.href='/contact';">Contact</button>
+        <!-- Contact Section -->
+        <div class="col-lg-4 d-flex flex-column align-items-center mb-4">
+            <div class="d-flex flex-column align-items-center h-100 justify-content-between">
+                <img src="https://cdn.pixabay.com/photo/2015/01/25/21/02/phone-612061_1280.jpg" class="rounded-circle mb-3" alt="Contact Us" width="150" height="150">
+                <h2 class="fw-normal text-center">Get in Touch</h2>
+                <p class="text-center flex-grow-1">Have questions or feedback? We're here to help. Reach out to us for any inquiries or support.</p>
+                <button type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3 fw-bold align-self-center" onclick="window.location.href='/contact';">Contact Us</button>
+            </div>
         </div>
     </div>
-<!-- START THE FEATURETTES -->
+</div>
+<!-- FEATURETTES -->
+<div class="container features">
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-body-secondary">It’ll blow your mind.</span></h2>
-            <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+            <h2 class="featurette-heading fw-normal lh-1">Explore New Content. <span class="text-body-secondary">Unlimited Entertainment.</span></h2>
+            <p class="lead">Discover a wide variety of movies and shows across different genres. No matter your interest, VidStream has something for you!</p>
         </div>
         <div class="col-md-5">
-            <img src="https://cdn.pixabay.com/photo/2021/02/10/13/35/tablet-6002100_1280.jpg" class="featurette-image img-fluid mx-auto" alt="Placeholder Image" width="300" height="200">
+            <img src="https://cdn.pixabay.com/photo/2021/02/10/13/35/tablet-6002100_1280.jpg" class="featurette-image img-fluid mx-auto rounded-4" alt="Movies and TV Shows" width="300" height="200">
         </div>
     </div>
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-body-secondary">See for yourself.</span></h2>
-            <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+            <h2 class="featurette-heading fw-normal lh-1">Share Your Own Content. <span class="text-body-secondary">Become a Creator.</span></h2>
+            <p class="lead">Upload your videos and let the world discover your content! VidStream gives you the tools to share your creativity.</p>
         </div>
         <div class="col-md-5 order-md-1">
-            <img src="https://cdn.pixabay.com/photo/2021/10/11/17/37/smartphone-6701409_1280.jpg" class="featurette-image img-fluid mx-auto" alt="Placeholder Image" width="300" height="200">
+            <img src="https://cdn.pixabay.com/photo/2021/10/11/17/37/smartphone-6701409_1280.jpg" class="featurette-image img-fluid mx-auto rounded-4" alt="Share Your Videos" width="300" height="200">
         </div>
     </div>
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span class="text-body-secondary">Checkmate.</span></h2>
-            <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+            <h2 class="featurette-heading fw-normal lh-1">Stream on Any Device. <span class="text-body-secondary">Anytime, Anywhere.</span></h2>
+            <p class="lead">Whether you're on your phone, tablet, or computer, VidStream adapts to any screen. Experience seamless streaming on all your devices.</p>
         </div>
         <div class="col-md-5">
-            <img src="https://cdn.pixabay.com/photo/2024/05/15/20/44/app-8764508_1280.jpg" class="featurette-image img-fluid mx-auto mb-4" alt="Placeholder Image" width="300" height="200">
+            <img src="https://cdn.fordhamram.com/wp-content/uploads/word-image-15780-1.png" class="featurette-image img-fluid mx-auto mb-4 rounded-4" alt="Seamless Streaming" width="300" height="200">
         </div>
     </div>
 </div>

@@ -1,240 +1,96 @@
-{%extends 'base.html' %}
-{%block title%}About{%endblock title%}
+{% extends 'base.html' %}
+{% block title %}About{% endblock title %}
 
-{%block aboutactive%} active {%endblock aboutactive%}
+{% block aboutactive %} active {% endblock aboutactive %}
 {% block content %}
 <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-        <img src="https://cdn.pixabay.com/photo/2024/05/15/20/44/app-8764508_1280.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
-            height="200" loading="lazy">
+        <img src="https://cdn.pixabay.com/photo/2024/05/15/20/44/app-8764508_1280.jpg" class="d-block mx-lg-auto img-fluid rounded-5" width="700" height="200" loading="lazy">
     </div>
     <div class="col-lg-6">
-        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Responsive left-aligned hero with image</h1>
-        <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most
-            popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
-            extensive prebuilt components, and powerful JavaScript plugins.</p>
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">About VidStream: Your Entertainment Hub</h1>
+        <p class="lead">VidStream is a cutting-edge streaming platform that brings you unlimited access to your favorite movies and TV shows. With a focus on user experience, we provide high-quality streaming and a vast library of content, all for free. Whether you're at home or on the go, VidStream delivers seamless entertainment anytime, anywhere.</p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-dark btn-lg px-4 me-md-2">Primary</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
-        </div>
-    </div>
-</div>
-<div class="container px-4 py-5" id="hanging-icons">
-    <h2 class="pb-2 border-bottom">Hanging icons</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div class="col d-flex align-items-start">
-            <div
-                class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <svg class="bi" width="1em" height="1em">
-                    <use xlink:href="#toggles2"></use>
-                </svg>
-            </div>
-            <div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
-                    and probably just keep going until we run out of words.</p>
-                <a href="#" class="btn btn-dark">
-                    Primary button
-                </a>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div
-                class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <svg class="bi" width="1em" height="1em">
-                    <use xlink:href="#cpu-fill"></use>
-                </svg>
-            </div>
-            <div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
-                    and probably just keep going until we run out of words.</p>
-                <a href="#" class="btn btn-dark">
-                    Primary button
-                </a>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div
-                class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <svg class="bi" width="1em" height="1em">
-                    <use xlink:href="#tools"></use>
-                </svg>
-            </div>
-            <div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
-                    and probably just keep going until we run out of words.</p>
-                <a href="#" class="btn btn-dark">
-                    Primary button
-                </a>
-            </div>
+            <button type="button" class="btn btn-dark btn-lg px-4 me-md-2" onclick="window.location.href='/stream';">Stream Now</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.location.href='/contact';">Contact Us</button>
         </div>
     </div>
 </div>
 <div class="container px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom">Custom cards</h2>
-
+    <h2 class="pb-2 border-bottom">Key Features of VidStream</h2>
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
         <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                style="background-image: url('unsplash-photo-1.jpg');">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://th.bing.com/th/id/OIP.J90qKnfO3IdwNjmbpMTeJwHaHa');">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h3>
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Unlimited Access</h3>
                     <ul class="d-flex list-unstyled mt-auto">
-                        <li class="me-auto">
-                            <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32"
-                                class="rounded-circle border border-white">
-                        </li>
-                        <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"></use>
-                            </svg>
-                            <small>Earth</small>
-                        </li>
-                        <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"></use>
-                            </svg>
-                            <small>3d</small>
-                        </li>
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32"class="rounded-circle"></li>
+                        <li class="d-flex align-items-center me-3"><small>Worldwide</small></li>
+                        <li class="d-flex align-items-center"><small>On-Demand</small></li>
                     </ul>
                 </div>
             </div>
         </div>
-
         <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                style="background-image: url('unsplash-photo-2.jpg');">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://prospected.com/wp-content/uploads/2020/02/A-Complete-Guide-on-How-to-Create-a-Video-Streaming-Website-in-2020-Featured-Image.jpg');">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines
-                    </h3>
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">High-Quality Streaming</h3>
                     <ul class="d-flex list-unstyled mt-auto">
-                        <li class="me-auto">
-                            <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32"
-                                class="rounded-circle border border-white">
-                        </li>
-                        <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"></use>
-                            </svg>
-                            <small>Pakistan</small>
-                        </li>
-                        <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"></use>
-                            </svg>
-                            <small>4d</small>
-                        </li>
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32" class="rounded-circle"></li>
+                        <li class="d-flex align-items-center me-3"><small>HD & 4K</small></li>
+                        <li class="d-flex align-items-center"><small>Instant Play</small></li>
                     </ul>
                 </div>
             </div>
         </div>
-
         <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                style="background-image: url('unsplash-photo-3.jpg');">
-                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h3>
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://www.duplod.com.br/wp-content/uploads/2022/02/UX-design-x-UI.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">User-Friendly Interface</h3>
                     <ul class="d-flex list-unstyled mt-auto">
-                        <li class="me-auto">
-                            <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32"
-                                class="rounded-circle border border-white">
-                        </li>
-                        <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"></use>
-                            </svg>
-                            <small>California</small>
-                        </li>
-                        <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"></use>
-                            </svg>
-                            <small>5d</small>
-                        </li>
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32" class="rounded-circle"></li>
+                        <li class="d-flex align-items-center me-3"><small>Global Reach</small></li>
+                        <li class="d-flex align-items-center"><small>Multi-Device</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://thumbs.dreamstime.com/b/social-media-theme-person-using-smartphone-night-city-274721173.jpg');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Multi-Platform Support</h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32" class="rounded-circle"></li>
+                        <li class="d-flex align-items-center me-3"><small>All Devices</small></li>
+                        <li class="d-flex align-items-center"><small>Sync Across Devices</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://th.bing.com/th/id/OIP.mjQh8r81XA3-MsvXrZp2fAHaEM');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Offline Mode</h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32" class="rounded-circle"></li>
+                        <li class="d-flex align-items-center me-3"><small>Offline Viewing</small></li>
+                        <li class="d-flex align-items-center"><small>Save for Later</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg d-flex" style="background-image: url('https://th.bing.com/th/id/OIP.4cIRv6H9i_iVqGOM-R4qFQHaHa');">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Personalized Recommendations</h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"><img src="https://img.freepik.com/premium-vector/video-icon-isolated-transparent-background_967740-1951.jpg" width="32" height="32" class="rounded-circle d-flex align-items-left"></li>
+                        <li class="d-flex align-items-right me-3"><small>Based on History</small></li>
+                        <li class="d-flex align-items-right"><small>Tailored Content</small></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="container px-4 py-5" id="icon-grid">
-    <h2 class="pb-2 border-bottom">Icon grid</h2>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#bootstrap"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#cpu-fill"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#calendar3"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#home"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#speedometer2"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#toggles2"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#geo-fill"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                <use xlink:href="#tools"></use>
-            </svg>
-            <div>
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading.</p>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock content%}
+{% endblock content %}
