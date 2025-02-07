@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Contact
 from stream.models import Stream
+import re
 
 # Home View
 def home(request):
@@ -20,18 +21,25 @@ def contact(request):
         user_email = request.POST.get('email')
         user_message = request.POST.get('message')
         attachment = request.FILES.get('file_path')
-        contact = Contact(name=user_name, email=user_email, message=user_message, file_path=attachment)
         
-        # Validate form data
-        if len(user_name) < 2 or len(user_email) < 3 or len(user_message) < 4:
-            messages.error(request, 'Invalid form data!')
-            return redirect('contact')
-        else:
-            contact.save()
-            messages.success(request, 'Your message has been sent successfully!')
-            return redirect('contact')
+        if request.user.is_authenticated:
+            user_name = request.user.username
+            user_email = request.user.email
+
+        if not request.user.is_authenticated:
+            if len(user_name) < 2 or not re.match(r"[^@]+@[^@]+\.[^@]+", user_email) or len(user_message) < 4:
+                messages.error(request, 'Invalid form data! Please check your name, email, and message.')
+                return redirect('contact')
+        contact = Contact(name=user_name, email=user_email, message=user_message, file_path=attachment)
+        contact.save()
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('contact')
     else:
-        return render(request, 'home/contact.html', context={'title': 'Contact'})
+        context = {'title': 'Contact'}
+        if request.user.is_authenticated:
+            context['user_name'] = request.user.username
+            context['user_email'] = request.user.email
+        return render(request, 'home/contact.html', context)
 
 # Search View
 def search(request):
