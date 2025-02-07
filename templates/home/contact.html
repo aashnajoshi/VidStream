@@ -7,9 +7,9 @@
 <form method="post" enctype="multipart/form-data" class="form-group rounded p-3 shadow-lg">
     {% csrf_token %}
     <label for="name">Your Name:</label>
-    <input class="form-control" type="text" id="name" name="name" required><br>
+    <input class="form-control" type="text" id="name" name="name" value="{% if user_name %}{{ user_name }}{% endif %}" required><br>
     <label for="email">Your Email:</label>
-    <input class="form-control" type="email" id="email" name="email" required><br>
+    <input class="form-control" type="email" id="email" name="email" value="{% if user_email %}{{ user_email }}{% endif %}" required><br>
     <label for="message">Message:</label><br>
     <textarea class="form-control" id="message" name="message" cols="40" rows="3" required></textarea><br>
     <label for="file_path">Attachment (If Any):</label>
