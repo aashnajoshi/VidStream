@@ -11,9 +11,7 @@ class Stream(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.CharField(max_length=14)
-
-    class Meta:
-        verbose_name_plural = "Streams"
+    views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title + ' on ' + self.created_at.strftime('%Y-%m-%d')

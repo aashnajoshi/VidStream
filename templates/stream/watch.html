@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Watch Video{% endblock title %}
+{% load humanize %}
 
 {% block content %}
 <!-- Video Player & Description Section -->
@@ -28,7 +29,21 @@
             <!-- Comments Section -->
             <section style="background-color: #f8f9fa;">
                 <div class="container">
-                    <h4 class="text-center mb-4">Comments</h4>
+                <h4 class="text-center mb-4">Comments <span>({{ video.comments.count }})</span></h4>
+                    <!-- Comment Form -->
+                    <div class="mt-4">
+                        <h5><strong>Add a comment</strong></h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-outline">
+                                <label class="form-label" for="textAreaExample">What is your view?</label>
+                                <textarea class="form-control" name="content" rows="4" required></textarea>
+                            </div>
+                            <div class="d-flex justify-content-between m-3">
+                                <button type="submit" class="btn btn-dark">Post Comment</button>
+                            </div>
+                        </form>
+                    </div>
 
                     <!-- Display Comments -->
                     {% for comment in comments %}
@@ -37,7 +52,7 @@
                         <div class="flex-grow-1 flex-shrink-1">
                             <div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="mb-1">{{ comment.user.username }} <span class="small">- {{ comment.created_at|date:"H:i, d M Y" }}</span></p>
+                                    <p class="mb-1"><strong>{{ comment.user.username }}</strong><span class="small badge text-bg-secondary m-1" style="font-size: 0.5rem;">{{ comment.created_at | naturaltime }}</span>
                                 </div>
                                 <p class="small mb-0">{{ comment.content }}</p>
                             </div>
@@ -46,21 +61,6 @@
                     {% empty %}
                     <p>No comments yet. Be the first to comment!</p>
                     {% endfor %}
-
-                    <!-- Comment Form -->
-                    <div class="mt-4">
-                        <h5>Add a comment</h5>
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div class="form-outline">
-                                <textarea class="form-control" name="content" rows="4" required></textarea>
-                                <label class="form-label" for="textAreaExample">What is your view?</label>
-                            </div>
-                            <div class="d-flex justify-content-between mt-3">
-                                <button type="submit" class="btn btn-success">Post Comment</button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </section>
 

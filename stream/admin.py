@@ -8,3 +8,4 @@ class StreamAdmin(admin.ModelAdmin):
     list_filter = ('genre', 'created_at')
     
 admin.site.register(Stream, StreamAdmin)
+admin.site.register(Comment)

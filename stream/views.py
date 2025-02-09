@@ -5,7 +5,7 @@ from .models import Stream
 from django.contrib import messages
 
 def home(request):
-    videos = Stream.objects.all()
+    videos = Stream.objects.all().order_by('-created_at')
     paginator = Paginator(videos, 30)
     page_number = request.GET.get('page') 
     page_obj = paginator.get_page(page_number)
@@ -38,18 +38,20 @@ from django.contrib import messages
 def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
+        video.views += 1
+        video.save() 
     except Stream.DoesNotExist:
         return redirect('home')
     
     other_videos = Stream.objects.exclude(id=video_id)
 
-    if request.method == 'POST':
-        content = request.POST.get('content')  # The comment content
+    if request.method == 'POST': # For Comments
+        content = request.POST.get('content')
         if content:
             comment = Comment(video=video, user=request.user, content=content)
             comment.save()
             messages.success(request, 'Your comment has been posted!')
 
-    comments = video.comments.all()
+    comments = video.comments.all().order_by('-created_at')
 
     return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
