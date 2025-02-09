@@ -20,11 +20,52 @@
                 <div>
                     <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">{{ video.title }}</h3>
                     <p><strong>Genre:</strong> <span class="text-muted">{{ video.genre }}</span></p>
+                    <p><strong>Uploaded By:</strong> <span class="text-muted">{{ video.uploaded_by }}</span></p>
                     <p>{{ video.description }}</p>
                 </div>
             </div>
+
+            <!-- Comments Section -->
+            <section style="background-color: #f8f9fa;">
+                <div class="container">
+                    <h4 class="text-center mb-4">Comments</h4>
+
+                    <!-- Display Comments -->
+                    {% for comment in comments %}
+                    <div class="d-flex flex-start mb-4">
+                        <img class="rounded-circle shadow-1-strong me-3" src="https://www.w3schools.com/w3images/avatar2.png" alt="avatar" width="50" height="50" />
+                        <div class="flex-grow-1 flex-shrink-1">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="mb-1">{{ comment.user.username }} <span class="small">- {{ comment.created_at|date:"H:i, d M Y" }}</span></p>
+                                </div>
+                                <p class="small mb-0">{{ comment.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+
+                    <!-- Comment Form -->
+                    <div class="mt-4">
+                        <h5>Add a comment</h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-outline">
+                                <textarea class="form-control" name="content" rows="4" required></textarea>
+                                <label class="form-label" for="textAreaExample">What is your view?</label>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <button type="submit" class="btn btn-success">Post Comment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
         </div>
-<!-- Watch More Section -->
+        <!-- Watch More Section -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header text-center bg-dark text-white">
@@ -35,7 +76,8 @@
                     {% if other_video != video %}
                     <a href="{% url 'video_play' other_video.id %}" class="list-group-item list-group-item-action">
                         <div class="d-flex align-items-center">
-                            <img src="{{ other_video.cover_image.url }}" class="rounded-circle mx-2" style="width: 40px; height: 40px; object-fit: cover;" alt="{{ other_video.title }}">
+                            <img src="{{ other_video.cover_image.url }}" class="rounded-circle mx-2"
+                                style="width: 40px; height: 40px; object-fit: cover;" alt="{{ other_video.title }}">
                             <span>{{ other_video.title }}</span>
                         </div>
                     </a>

@@ -29,13 +29,27 @@ def upload_video(request):
         return redirect('home')
     return render(request, 'stream/upload.html')
 
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from .models import Stream, Comment
+from django.contrib import messages
+
 @login_required
 def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
     except Stream.DoesNotExist:
-        return redirect('stream')
+        return redirect('home')
     
     other_videos = Stream.objects.exclude(id=video_id)
 
-    return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos})
+    if request.method == 'POST':
+        content = request.POST.get('content')  # The comment content
+        if content:
+            comment = Comment(video=video, user=request.user, content=content)
+            comment.save()
+            messages.success(request, 'Your comment has been posted!')
+
+    comments = video.comments.all()
+
+    return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
