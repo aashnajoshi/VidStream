@@ -24,3 +24,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.video.title}"
+
+class Room(models.Model):
+    room_code = models.CharField(max_length=6, unique=True)
+    users = models.ManyToManyField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Room {self.room_code}"

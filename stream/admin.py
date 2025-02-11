@@ -9,3 +9,4 @@ class StreamAdmin(admin.ModelAdmin):
     
 admin.site.register(Stream, StreamAdmin)
 admin.site.register(Comment)
+admin.site.register(Room)
