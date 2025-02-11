@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Stream{% endblock title %}
+{% load humanize %}
+
+{% block content %}
+<div class="container m-2">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="font-weight-bold">Watch with Friends!</h2>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Video and Description Section -->
+        <div class="col-md-8">
+            <div class="video-container mb-4">
+                <video class="w-100" height="auto" style="max-height: 400px;" controls>
+                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="card p-4 mb-4">
+                <div>
+                    <h3 class="fw-bold mb-0 fs-4 text-body-emphasis text-center">{{ video.title }}</h3>
+                    <p><strong>Genre:</strong> <span class="text-muted">{{ video.genre }}</span></p>
+                    <div class="d-flex justify-content-start mb-3">
+                        <p class="me-5"><strong>Uploaded By:</strong> <span class="text-muted">{{ video.uploaded_by }}</span></p>
+                        <p class="me-5"><strong>Uploaded On:</strong> <span class="text-muted">{{ video.created_at | naturaltime }}</span></p>
+                        <p class="me-2"><strong>Views:</strong> <span class="text-muted">{{ video.views | intcomma }}</span></p>
+                    </div>
+                    <p><strong>Description:</strong> <span class="text-muted">{{ video.description }}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Section: Room Info, Users & Watch More -->
+        <div class="col-md-4">
+            <button class="btn btn-secondary w-100 mb-4" id="copyLinkBtn">Copy Link</button>
+            <!-- Room Info Section -->
+            <div class="card mb-4">
+                <div class="card-header text-center bg-dark text-white">
+                    <h5>Room Info</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <p class="list-group-item">Room Code: <strong>{{ room.room_code }}</strong></p>
+                    <!-- Viewers Section -->
+                    <p class="list-group-item">
+                        <strong>Viewers ({{ room.users.count }})</strong>
+                    </p>
+                    <ul class="list-group list-group-flush">
+                        {% for user in room.users.all %}
+                        <li class="list-group-item">{{ user.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Watch More Section (Links to other videos) -->
+            <div class="card">
+                <div class="card-header text-center bg-dark text-white">
+                    <h5>Watch More</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for other_video in videos %}
+                    {% if other_video != video %}
+                    <a href="{% url 'room_watch' room.room_code other_video.id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ other_video.cover_image.url }}" class="rounded-circle mx-2" style="width: 40px; height: 40px; object-fit: cover;" alt="{{ other_video.title }}">
+                            <span>{{ other_video.title }}</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Copy link functionality
+    document.getElementById("copyLinkBtn").addEventListener("click", function () {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+    });
+</script>
+{% endblock content%}

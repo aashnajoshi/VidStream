@@ -58,7 +58,7 @@
                     <!-- Sign In Form -->
                     <form method="POST" action="{% url 'signin' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <input type="hidden" name="next" value="{{ request.GET.next|default:'/' }}">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username or Email</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -87,7 +87,7 @@
                     <!-- Sign Up Form -->
                     <form method="POST" action="{% url 'signup' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <input type="hidden" name="next" value="{{ request.GET.next|default:'/' }}">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter your Username (lowercase & Alphanumeric)" required>

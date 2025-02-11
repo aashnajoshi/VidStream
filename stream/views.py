@@ -1,9 +1,9 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import *
+from .models import Stream, Comment, Room
 import random
 import string
 
@@ -25,7 +25,11 @@ def upload_video(request):
         genre = request.POST.get('genre')
         description = request.POST.get('description')
 
-        stream = Stream(title=title, cover_image=cover_image, video_file=video_file, trailer_link=trailer_link, genre=genre, description=description, uploaded_by=request.user.username)
+        stream = Stream(
+            title=title, cover_image=cover_image, video_file=video_file,
+            trailer_link=trailer_link, genre=genre, description=description,
+            uploaded_by=request.user.username
+        )
         stream.save()
         messages.success(request, 'Video uploaded successfully')
 
@@ -37,20 +41,30 @@ def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
         video.views += 1
-        video.save() 
+        video.save()
     except Stream.DoesNotExist:
         return redirect('home')
-    
+
     other_videos = Stream.objects.exclude(id=video_id)
 
-    if request.method == 'POST': # For Comments
+    if request.method == 'POST':
         content = request.POST.get('content')
+        parent_id = request.POST.get('parent_id')
+
         if content:
-            comment = Comment(video=video, user=request.user, content=content)
+            if parent_id:
+                try:
+                    parent_comment = Comment.objects.get(id=parent_id)
+                    comment = Comment(video=video, user=request.user, content=content, parent=parent_comment)
+                except Comment.DoesNotExist:
+                    messages.error(request, "Parent comment does not exist.")
+                    return redirect('video_play', video_id=video_id)
+            else:
+                comment = Comment(video=video, user=request.user, content=content)
             comment.save()
             messages.success(request, 'Your comment has been posted!')
 
-    comments = video.comments.all().order_by('-created_at')
+    comments = video.comments.filter(parent=None).order_by('-created_at')
 
     return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
 
@@ -63,18 +77,20 @@ def create_or_join_room(request):
         action = request.POST.get('action')
         room_code = request.POST.get('room_code').lower()
 
-        # If action is to create a new room
         if action == 'create':
-            # Generate a unique room code
             room_code = generate_room_code()
             room = Room.objects.create(room_code=room_code)
             room.users.add(request.user)
             room.save()
 
             messages.success(request, f"Room created with code: {room_code}")
-            return redirect('room_watch', room_code=room_code)
+            video = Stream.objects.first()
+            if not video:
+                messages.error(request, "No videos available to select.")
+                return redirect('home')
+            video_id = video.id
+            return redirect('room_watch', room_code=room_code, video_id=video_id)
 
-        # If action is to join an existing room
         elif action == 'join':
             try:
                 room = Room.objects.get(room_code=room_code)
@@ -82,7 +98,12 @@ def create_or_join_room(request):
                 room.save()
 
                 messages.success(request, f"Joined room: {room_code}")
-                return redirect('room_watch', room_code=room_code)
+                video = Stream.objects.first()
+                if not video:
+                    messages.error(request, "No videos available to select.")
+                    return redirect('home')
+                video_id = video.id
+                return redirect('room_watch', room_code=room_code, video_id=video_id)
 
             except Room.DoesNotExist:
                 messages.error(request, f"Room with code {room_code} does not exist.")
@@ -90,11 +111,28 @@ def create_or_join_room(request):
     return redirect('home')
 
 @login_required
-def watch_room(request, room_code):
+def watch_room(request, room_code, video_id):
     try:
-        room = Room.objects.get(room_code=room_code)
-        videos = Video.objects.all()
-        return render(request, 'stream/watch_room.html', {'room': room, 'videos': videos})
+        room = Room.objects.get(room_code=room_code)   
+        if request.user not in room.users.all():
+            room.users.add(request.user)
+            room.save()
+            messages.success(request, f"You have been added to the room {room_code}")
+
+        video = Stream.objects.get(id=video_id)
+        video.views += 1
+        video.save()
+        other_videos = Stream.objects.exclude(id=video_id)
+
+        return render(request, 'stream/stream.html', {'room': room, 'video': video, 'videos': other_videos})
+
     except Room.DoesNotExist:
         messages.error(request, "Room does not exist.")
         return redirect('home')
+    except Stream.DoesNotExist:
+        messages.error(request, "Video does not exist.")
+        return redirect('home')
+
+def room_view(request, room_code):
+    room = get_object_or_404(Room, room_code=room_code)
+    return render(request, 'stream/room.html', {'room': room})

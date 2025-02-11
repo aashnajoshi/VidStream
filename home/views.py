@@ -88,7 +88,10 @@ def signup(request):
         # Automatically log the user in after successful registration
         login(request, user)
         messages.success(request, f'Welcome, {user.username}! You have successfully Signed up.')
-        return render(request, "home/home.html")
+
+        # Get the next parameter from the request, if available
+        next_url = request.POST.get('next', '/')
+        return redirect(next_url)
     else:
         messages.error(request, '404 - Not Found')
         return render(request, "home/home.html")
@@ -112,8 +115,9 @@ def signin(request):
         user = authenticate(request, username=user.username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, f'Welcome back, {user.username}!')
-            return render(request, "home/home.html")
+            # Get the next parameter from the request, if available
+            next_url = request.POST.get('next', '/')
+            return redirect(next_url)  # Redirect to the intended page (room or home)
         else:
             messages.error(request, 'Invalid Credentials.')
             return render(request, "home/home.html")

@@ -9,8 +9,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 mx-auto">
             <h1 class="fw-dark">Video Library</h1>
-            <p class="lead text-body-secondary">Discover a collection of videos below. Click on any video to watch and
-                enjoy!</p>
+            <p class="lead text-body-secondary">Discover a collection of videos below. Click on any video to watch and enjoy!</p>
         </div>
     </div>
 
@@ -42,7 +41,7 @@
                     <!-- Bottom section with button and date -->
                     <div class="d-flex justify-content-between align-items-space-between">
                         <p class="text-muted flex-grow-1" style="font-size: small;"><strong>Uploaded By:</strong> {{ video.uploaded_by }}</p>
-                        <p class="text-muted flex-grow-1" style="font-size: small;"><strong>Uploaded At:</strong> {{ video.created_at|date:"d M, y" }}</p>
+                        <p class="text-muted flex-grow-1" style="font-size: small;">{{ video.created_at| naturaltime }}</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         {% if user.is_authenticated %}
