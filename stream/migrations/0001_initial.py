@@ -36,7 +36,6 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('parent_comment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='replies', to='stream.comment')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('video', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='stream.stream')),
             ],

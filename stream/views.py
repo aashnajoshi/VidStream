@@ -35,7 +35,6 @@ from .models import Stream, Comment
 from django.contrib import messages
 
 @login_required
-@login_required
 def video_play(request, video_id):
     try:
         video = Stream.objects.get(id=video_id)
@@ -46,19 +45,13 @@ def video_play(request, video_id):
     
     other_videos = Stream.objects.exclude(id=video_id)
 
-    if request.method == 'POST': # For Comments or Replies
+    if request.method == 'POST': # For Comments
         content = request.POST.get('content')
-        parent_comment_id = request.POST.get('parent_comment')          
         if content:
-            parent_comment = None
-            if parent_comment_id:
-                parent_comment = Comment.objects.get(id=parent_comment_id) 
-                
-            comment = Comment(video=video, user=request.user, content=content, parent_comment=parent_comment)
+            comment = Comment(video=video, user=request.user, content=content)
             comment.save()
             messages.success(request, 'Your comment has been posted!')
 
-    comments = video.comments.filter(parent_comment__isnull=True).order_by('-created_at')  # Only top-level comments (parent comments)
-    replies = {comment.id: comment.replies.all().order_by('created_at') for comment in comments}  # Fetch replies for each top-level comment (child comments)
+    comments = video.comments.all().order_by('-created_at')
 
-    return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments, 'replies': replies})
+    return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
