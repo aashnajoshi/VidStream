@@ -68,9 +68,6 @@ def video_play(request, video_id):
 
     return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
 
-def generate_room_code():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-
 @login_required
 def create_or_join_room(request):
     if request.method == 'POST':
@@ -136,3 +133,13 @@ def watch_room(request, room_code, video_id):
 def room_view(request, room_code):
     room = get_object_or_404(Room, room_code=room_code)
     return render(request, 'stream/room.html', {'room': room})
+
+def generate_room_code():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+
+def leave_room(request, room_code):
+    room = get_object_or_404(Room, room_code=room_code)
+    room.users.remove(request.user)
+    if room.users.count() == 0:
+        room.delete()
+    return redirect('home')

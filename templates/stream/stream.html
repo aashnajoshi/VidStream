@@ -31,9 +31,19 @@
             </div>
         </div>
 
-        <!-- Sidebar Section: Room Info, Users & Watch More -->
+        <!-- Sidebar Section: Buttons, Room Info, Users & Watch More -->
         <div class="col-md-4">
-            <button class="btn btn-secondary w-100 mb-4" id="copyLinkBtn">Copy Link</button>
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-secondary flex-grow-1 m-2" id="copyLinkBtn">Copy Link</button>
+                {% if user in room.users.all %}
+                <div class="flex-grow-1 m-2">
+                    <form method="POST" action="{% url 'leave_room' room.room_code %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger w-100">Leave Room</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
             <!-- Room Info Section -->
             <div class="card mb-4">
                 <div class="card-header text-center bg-dark text-white">
