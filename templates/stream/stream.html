@@ -33,15 +33,13 @@
 
         <!-- Sidebar Section: Buttons, Room Info, Users & Watch More -->
         <div class="col-md-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <button class="btn btn-secondary flex-grow-1 m-2" id="copyLinkBtn">Copy Link</button>
+            <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
+                <button class="btn btn-outline-dark flex-grow-1" id="copyLinkBtn">Copy Link</button>
                 {% if user in room.users.all %}
-                <div class="flex-grow-1 m-2">
-                    <form method="POST" action="{% url 'leave_room' room.room_code %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-danger w-100">Leave Room</button>
-                    </form>
-                </div>
+                <form method="POST" action="{% url 'leave_room' room.room_code %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger flex-grow-1">Leave Room</button>
+                </form>
                 {% endif %}
             </div>
             <!-- Room Info Section -->
