@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -144,7 +145,14 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': os.getenv('GITHUB_CLIENT_ID'),
             'secret': os.getenv('GITHUB_CLIENT_SECRET'),
         },
-    }
+    },
+    'google': {
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        },
+    },
 }
 
 LOGIN_REDIRECT_URL = '/'

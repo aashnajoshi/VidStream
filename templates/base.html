@@ -70,7 +70,8 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <button type="submit" class="btn btn-dark flex-grow-1 m-2">Sign In</button>
-                            <a href="{% provider_login_url 'github' %}" class="btn btn-outline-dark flex-grow-1">Sign In with GitHub</a> 
+                            <a href="{% provider_login_url 'github' %}" class="btn btn-outline-dark flex-grow-1 m-2">Sign In with GitHub</a> 
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-outline-dark flex-grow-1">Sign In with Google</a> 
                         </div>           
                     </form>
                     <p>Don't have an Account? <a class="btn btn-link pt-0" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</a></p>
@@ -109,8 +110,9 @@
                             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <button type="submit" class="btn btn-dark flex-grow-1 m-2">Sign Up</button>
-                            <a href="{% provider_login_url 'github' %}" class="btn btn-outline-dark flex-grow-1">Sign Up with GitHub</a>                    
+                            <button type="submit" class="btn btn-dark m-2">Sign Up</button>
+                            <a href="{% provider_login_url 'github' %}" class="btn btn-outline-dark flex-grow-1 m-2">Sign Up with GitHub</a>                    
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-outline-dark flex-grow-1">Sign Up with Google</a>
                         </div>
                     </form>
                     <p>Already have an Account? <a class="btn btn-link pt-0" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</a></p>
