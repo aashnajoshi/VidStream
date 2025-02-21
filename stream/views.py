@@ -24,12 +24,7 @@ def upload_video(request):
         trailer_link = request.POST.get('trailer_link')
         genre = request.POST.get('genre')
         description = request.POST.get('description')
-
-        stream = Stream(
-            title=title, cover_image=cover_image, video_file=video_file,
-            trailer_link=trailer_link, genre=genre, description=description,
-            uploaded_by=request.user.username
-        )
+        stream = Stream(title=title, cover_image=cover_image, video_file=video_file, trailer_link=trailer_link, genre=genre, description=description, uploaded_by=request.user.username)
         stream.save()
         messages.success(request, 'Video uploaded successfully')
 
@@ -42,6 +37,7 @@ def video_play(request, video_id):
         video = Stream.objects.get(id=video_id)
         video.views += 1
         video.save()
+
     except Stream.DoesNotExist:
         return redirect('home')
 
@@ -50,7 +46,6 @@ def video_play(request, video_id):
     if request.method == 'POST':
         content = request.POST.get('content')
         parent_id = request.POST.get('parent_id')
-
         if content:
             if parent_id:
                 try:
@@ -65,7 +60,6 @@ def video_play(request, video_id):
             messages.success(request, 'Your comment has been posted!')
 
     comments = video.comments.filter(parent=None).order_by('-created_at')
-
     return render(request, 'stream/watch.html', context={'video': video, 'videos': other_videos, 'comments': comments})
 
 @login_required
