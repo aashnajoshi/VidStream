@@ -18,7 +18,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m-d0_hj*@j4ubssa6ot!61kq*69%wyq$_wf3+xs4yllr_$n80d'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
 
+    "unfold",
+    "unfold.contrib.forms",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -158,3 +160,12 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# Custom Backend (Unfold)
+UNFOLD = {
+    "SITE_URL": "http://127.0.0.1:8000/",
+    "SIDEBAR": {
+        "show_search": True,
+        "navigation": []
+    },
+}
