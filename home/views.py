@@ -1,10 +1,10 @@
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render,HttpResponse, redirect
-from django.contrib.auth.models import User
-from django.contrib import messages
-from .models import Contact
-from stream.models import Stream
 import re
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.shortcuts import HttpResponse, redirect, render
+from stream.models import Stream
+from .models import Contact
 
 # Home View
 def home(request):

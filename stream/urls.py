@@ -1,6 +1,6 @@
 from django.urls import path
+from home.views import search, signin
 from .views import *
-from home.views import signin, search
 
 urlpatterns = [
     path('', home, name='home'),

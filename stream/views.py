@@ -1,11 +1,11 @@
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib import messages
-from .models import Stream, Comment, Room
 import random
 import string
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Comment, Room, Stream
 
 def home(request):
     videos = Stream.objects.all().order_by('-created_at')

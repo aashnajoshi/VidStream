@@ -1,6 +1,6 @@
+from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
-from django.contrib.auth.models import User
 
 class Stream(models.Model):
     title = models.CharField(max_length=255)
