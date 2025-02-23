@@ -165,6 +165,7 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 UNFOLD = {
     "SITE_URL": "http://127.0.0.1:8000/",
     "SITE_TITLE": "VidStream",
+    "SITE_HEADER": "VidStream Admin Panel",
     "SIDEBAR": {
         "show_search": True,
         "navigation": []
