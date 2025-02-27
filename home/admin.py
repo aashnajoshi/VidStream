@@ -1,8 +1,8 @@
-from django.contrib import admin
+from django.contrib.admin import register
 from unfold.admin import ModelAdmin
 from .models import Contact
 
-@admin.register(Contact)
+@register(Contact)
 class ContactAdmin(ModelAdmin):
     list_display = ('name', 'email', 'message', 'file_path', 'created_at')
     search_fields = ('name', 'email', 'message')
