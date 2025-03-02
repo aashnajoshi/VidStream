@@ -11,6 +11,7 @@ pillow = "*"
 PyJWT = "*"
 django-allauth = "*"
 django-unfold = "*"
+django-import-export = "*"
 
 [dev-packages]
 
