@@ -8,8 +8,7 @@
     {% csrf_token %}
     <div class="mb-3">
         <label class="form-label"><strong>Video File</strong></label>
-        <div class="border border-dashed p-4 text-center cursor-pointer" id="videoDropArea"
-            style="border-style: dashed; cursor: pointer;">
+        <div class="border border-dashed p-4 text-center cursor-pointer" id="videoDropArea" style="border-style: dashed; cursor: pointer;">
             <i class="fas fa-file-upload fa-2x text-primary"></i>
             <p class="mt-2">Drag & Drop or Click to Select</p>
             <input type="file" class="form-control d-none" name="video_file" id="videoFileInput" accept=".mp4, .mkv" required>
@@ -83,9 +82,7 @@
                 selectAgainContainer.classList.remove('d-none');
                 if (useFileNameCheckbox && useFileNameCheckbox.checked) {
                     titleInput.value = file.name.split('.').slice(0, -1).join('.');
-                }
-            }
-        }
+                }}}
         if (useFileNameCheckbox) {
             useFileNameCheckbox.addEventListener('change', function () {
                 const file = fileInput.files[0];
@@ -93,17 +90,15 @@
                     titleInput.value = file.name.split('.').slice(0, -1).join('.');
                 } else {
                     titleInput.value = "";
-                }
-            });
-        }
+                }});}
+
         selectAgainLink.addEventListener('click', (e) => {
             e.preventDefault();
             fileInput.value = '';
             fileName.innerHTML = '';
             dropArea.style.display = 'block';
             selectAgainContainer.classList.add('d-none');
-        });
-    }
+        });}
     setupDragAndDrop('videoDropArea', 'videoFileInput', 'videoFileName', 'videoSelectAgainContainer', 'videoSelectAgain', 'useFileName', 'titleInput');
     setupDragAndDrop('imageDropArea', 'coverImageInput', 'coverImageName', 'imageSelectAgainContainer', 'imageSelectAgain');
 </script>
