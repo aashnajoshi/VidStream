@@ -169,6 +169,7 @@ UNFOLD = {
     "SITE_HEADER": "VidStream Admin Panel",
     "SIDEBAR": {
         "show_search": True,
+        "show_all_applications": True,
         "navigation": []
     },
 }
