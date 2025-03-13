@@ -2,21 +2,32 @@ import re
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.shortcuts import HttpResponse, redirect, render
+from django.shortcuts import redirect, render
+from django.views import View
+from django.http import HttpResponse
 from stream.models import Stream
 from .models import Contact
 
 # Home View
-def home(request):
-    return render(request, 'home/home.html', context={'title': 'Home'})
+class HomeView(View):
+    def get(self, request):
+        return render(request, 'home/home.html', context={'title': 'Home'})
 
 # About View
-def about(request):
-    return render(request, 'home/about.html', context={'title': 'About'})
+class AboutView(View):
+    def get(self, request):
+        return render(request, 'home/about.html', context={'title': 'About'})
 
 # Contact View
-def contact(request):
-    if request.method == 'POST':
+class ContactView(View):
+    def get(self, request):
+        context = {'title': 'Contact'}
+        if request.user.is_authenticated:
+            context['user_name'] = request.user.username
+            context['user_email'] = request.user.email
+        return render(request, 'home/contact.html', context)
+    
+    def post(self, request):
         user_name = request.POST.get('name')
         user_email = request.POST.get('email')
         user_message = request.POST.get('message')
@@ -30,37 +41,34 @@ def contact(request):
             if len(user_name) < 2 or not re.match(r"[^@]+@[^@]+\.[^@]+", user_email) or len(user_message) < 4:
                 messages.error(request, 'Invalid form data! Please check your name, email, and message.')
                 return redirect('contact')
+
         contact = Contact(name=user_name, email=user_email, message=user_message, file_path=attachment)
         contact.save()
         messages.success(request, 'Your message has been sent successfully!')
         return redirect('contact')
-    else:
-        context = {'title': 'Contact'}
-        if request.user.is_authenticated:
-            context['user_name'] = request.user.username
-            context['user_email'] = request.user.email
-        return render(request, 'home/contact.html', context)
 
 # Search View
-def search(request):
-    query = request.GET.get('query')
-    if len(query) > 78:
-        allStreams = []
-    else:
-        allStreamsTitle = [stream.title for stream in Stream.objects.all()]
-        allStreamsDescription = [stream.description for stream in Stream.objects.all()]
-        allStreamsGenre = [stream.genre for stream in Stream.objects.all()]
-        
-        allStreams = [stream for stream in Stream.objects.all() if query.lower() in stream.title.lower() or query.lower() in stream.description.lower() or query.lower() in stream.genre.lower()]
+class SearchView(View):
+    def get(self, request):
+        query = request.GET.get('query')
+        if len(query) > 78:
+            allStreams = []
+        else:
+            allStreamsTitle = [stream.title for stream in Stream.objects.all()]
+            allStreamsDescription = [stream.description for stream in Stream.objects.all()]
+            allStreamsGenre = [stream.genre for stream in Stream.objects.all()]
+            allStreams = [stream for stream in Stream.objects.all() if query.lower() in stream.title.lower() or query.lower() in stream.description.lower() or query.lower() in stream.genre.lower()]
 
-    if len(allStreams) == 0:
-        messages.warning(request, f'No search results found for "{query}". Please refine your query.')
-
-    return render(request, 'home/search.html', context={'title': 'Search', 'allStreams': allStreams, 'query': query})
+        if len(allStreams) == 0:
+            messages.warning(request, f'No search results found for "{query}". Please refine your query.')
+        return render(request, 'home/search.html', context={'title': 'Search', 'allStreams': allStreams, 'query': query})
 
 # SignUp View
-def signup(request):
-    if request.method == 'POST':
+class SignUpView(View):
+    def get(self, request):
+        return render(request, "home/home.html")
+
+    def post(self, request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
@@ -81,24 +89,22 @@ def signup(request):
             messages.error(request, 'Username/Email already exists.')
             return render(request, "home/home.html")
 
-        # Create the new user
+        # Create the new user and login
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
-
-        # Automatically log the user in after successful registration
         login(request, user)
         messages.success(request, f'Welcome, {user.username}! You have successfully Signed up.')
 
         # Get the next parameter from the request, if available
         next_url = request.POST.get('next', '/')
         return redirect(next_url)
-    else:
-        messages.error(request, '404 - Not Found')
-        return render(request, "home/home.html")
 
 # SignIn View
-def signin(request):
-    if request.method == 'POST':
+class SignInView(View):
+    def get(self, request):
+        return render(request, "home/home.html")
+
+    def post(self, request):
         username_or_email = request.POST['username']
         password = request.POST['password']
 
@@ -115,19 +121,15 @@ def signin(request):
         user = authenticate(request, username=user.username, password=password)
         if user is not None:
             login(request, user)
-            # Get the next parameter from the request, if available
             next_url = request.POST.get('next', '/')
-            return redirect(next_url)  # Redirect to the intended page (room or home)
+            return redirect(next_url)
         else:
             messages.error(request, 'Invalid Credentials.')
             return render(request, "home/home.html")
-    else:
-        messages.error(request, '404 - Not Found')
-        return render(request, "home/home.html")
 
 # SignOut View
-def signout(request):
-    if request.method == 'POST':
+class SignOutView(View):
+    def post(self, request):
         logout(request)
         messages.success(request, 'You have been successfully logged out.')
-    return render(request, "home/home.html")
+        return render(request, "home/home.html")
