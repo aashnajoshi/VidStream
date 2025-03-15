@@ -47,10 +47,20 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'import_export',
     "debug_toolbar",
+    'channels',
 
     "home",
     "stream",
 ]
+
+ASGI_APPLICATION = 'VidStream.asgi.application'
+WSGI_APPLICATION = 'VidStream.wsgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",

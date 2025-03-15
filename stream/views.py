@@ -3,6 +3,7 @@ import string
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -107,6 +108,7 @@ class CreateOrJoinRoomView(View):
                 return redirect('home')
         return redirect('home')
 
+@method_decorator(login_required(login_url='/signin'), name='dispatch')
 class WatchRoomView(View):
     def get(self, request, room_code, video_id):
         try:

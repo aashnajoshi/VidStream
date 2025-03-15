@@ -13,7 +13,7 @@
         <!-- Video and Description Section -->
         <div class="col-md-8">
             <div class="video-container mb-4">
-                <video class="w-100" height="auto" style="max-height: 400px;" controls>
+                <video id="video-player" class="w-100" height="auto" style="max-height: 400px;" controls>
                     <source src="{{ video.video_file.url }}" type="video/mp4">
                 </video>
             </div>
@@ -83,10 +83,42 @@
     </div>
 </div>
 <script>
+    const roomCode = "{{ room.room_code }}";
+    const videoElement = document.getElementById("video-player");
+    const socket = new WebSocket(`ws://${window.location.host}/ws/room/${roomCode}/`);
+
+    socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const action = data.action;
+        const time = data.time;
+
+        if (action === 'play') {
+            videoElement.currentTime = time;
+            videoElement.play();
+        } else if (action === 'pause') {
+            videoElement.currentTime = time;
+            videoElement.pause();
+        }
+    };
+
+    videoElement.onplay = function () {
+        socket.send(JSON.stringify({
+            'action': 'play',
+            'time': videoElement.currentTime
+        }));
+    };
+
+    videoElement.onpause = function () {
+        socket.send(JSON.stringify({
+            'action': 'pause',
+            'time': videoElement.currentTime
+        }));
+    };
+
     // Copy link functionality
     document.getElementById("copyLinkBtn").addEventListener("click", function () {
         navigator.clipboard.writeText(window.location.href);
         alert("Link copied to clipboard!");
     });
 </script>
-{% endblock content%}
+{% endblock content %}

@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import View
-from django.http import HttpResponse
 from stream.models import Stream
 from .models import Contact
 
@@ -54,12 +53,13 @@ class SearchView(View):
         if len(query) > 78:
             allStreams = []
         else:
-            allStreamsTitle = [stream.title for stream in Stream.objects.all()]
-            allStreamsDescription = [stream.description for stream in Stream.objects.all()]
-            allStreamsGenre = [stream.genre for stream in Stream.objects.all()]
-            allStreams = [stream for stream in Stream.objects.all() if query.lower() in stream.title.lower() or query.lower() in stream.description.lower() or query.lower() in stream.genre.lower()]
+            allStreams = Stream.objects.filter(
+                Q(title__icontains=query) | 
+                Q(description__icontains=query) | 
+                Q(genre__icontains=query)
+            )
 
-        if len(allStreams) == 0:
+        if not allStreams:
             messages.warning(request, f'No search results found for "{query}". Please refine your query.')
         return render(request, 'home/search.html', context={'title': 'Search', 'allStreams': allStreams, 'query': query})
 
@@ -75,7 +75,7 @@ class SignUpView(View):
         confirm_password = request.POST['confirmPassword']
 
         # Basic form validation
-        if len(username) < 4 or len(password) < 4 or username.isalnum() == False:
+        if len(username) < 4 or len(password) < 4 or not username.isalnum():
             messages.error(request, 'Username/Password must be at least 4 characters long. And Username should only contain alphanumeric characters.')
             return render(request, "home/home.html")
 
@@ -93,7 +93,7 @@ class SignUpView(View):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
         login(request, user)
-        messages.success(request, f'Welcome, {user.username}! You have successfully Signed up.')
+        messages.success(request, f'Welcome, {user.username}! You have successfully signed up.')
 
         # Get the next parameter from the request, if available
         next_url = request.POST.get('next', '/')
@@ -108,28 +108,27 @@ class SignInView(View):
         username_or_email = request.POST['username']
         password = request.POST['password']
 
-        try:
-            user = User.objects.get(username=username_or_email)  # First try to find by username
-        except User.DoesNotExist:
+        # Authenticate the user
+        user = authenticate(request, username=username_or_email, password=password)
+        if user is None:
+            # Try to find the user by email if authentication fails
             try:
-                user = User.objects.get(email=username_or_email)  # If not found by username, try to find by email
+                user = User.objects.get(email=username_or_email)
+                user = authenticate(request, username=user.username, password=password)
             except User.DoesNotExist:
-                messages.error(request, 'Invalid username/email or password.')
-                return render(request, "home/home.html")
+                user = None
 
-        # Authenticate the user with the found user object
-        user = authenticate(request, username=user.username, password=password)
         if user is not None:
             login(request, user)
             next_url = request.POST.get('next', '/')
             return redirect(next_url)
         else:
-            messages.error(request, 'Invalid Credentials.')
+            messages.error(request, 'Invalid username/email or password.')
             return render(request, "home/home.html")
 
 # SignOut View
 class SignOutView(View):
     def post(self, request):
         logout(request)
-        messages.success(request, 'You have been successfully logged out.')
-        return render(request, "home/home.html")
+        next_url = request.POST.get('next', request.GET.get('next', '/'))
+        return redirect(next_url if next_url.strip() else '/')
