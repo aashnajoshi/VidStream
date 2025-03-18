@@ -7,10 +7,10 @@ from .models import Contact
 
 @register(Contact)
 class ContactAdmin(ModelAdmin):
-    formfield_overrides = {models.TextField: {"widget": WysiwygWidget}}
-    list_display = ('name', 'email', 'message', 'file_path', 'created_at')
-    search_fields = ('name', 'email', 'message')
-    list_filter = ('name','created_at')
     import_form_class = ImportForm
     export_form_class = ExportForm
     selectable_export_form_class = SelectableFieldsExportForm
+    formfield_overrides = {models.TextField: {"widget": WysiwygWidget}}
+    list_display = ['name', 'email', 'message', 'file_path', 'created_at']
+    search_fields = ['name', 'email', 'message']
+    list_filter = ['name','created_at']
