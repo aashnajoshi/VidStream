@@ -92,6 +92,7 @@ class SignUpView(View):
         # Create the new user and login
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
         messages.success(request, f'Welcome, {user.username}! You have successfully signed up.')
 

@@ -133,10 +133,16 @@ class WatchRoomView(View):
 class RoomView(View):
     def get(self, request, room_code):
         room = get_object_or_404(Room, room_code=room_code)
-        return render(request, 'stream/room.html', {'room': room})
+        return render(request, 'stream/stream.html', {'room': room})
 
 class LeaveRoomView(View):
     def get(self, request, room_code):
+        return self.leave_room(request, room_code)
+
+    def post(self, request, room_code):
+        return self.leave_room(request, room_code)
+
+    def leave_room(self, request, room_code):
         room = get_object_or_404(Room, room_code=room_code)
         room.users.remove(request.user)
         if room.users.count() == 0:
