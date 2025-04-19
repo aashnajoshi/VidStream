@@ -1,5 +1,5 @@
 # VidStream
-VidStream is a video streaming platform built using Python's Django framework. It allows users to sign in, upload videos, and watch content shared by other users. The platform provides basic functionality like sign-in, sign-up, and video management, making it easy for users to interact with the content.
+VidStream is a video streaming platform built with Django and PostgreSQL. It enables users to sign in, upload videos, and watch content shared by others. The platform supports essential features like user authentication and video management to provide a smooth content-sharing experience.
 
 ## Features
 - User authentication (Sign In, Sign Up, Sign Out).
@@ -14,7 +14,7 @@ VidStream is a video streaming platform built using Python's Django framework. I
 pip install pipenv
 ```
 
-- Activate the virtual environment:
+- Activate the Virtual Environment:
 ```bash
 pipenv shell
 ```
@@ -22,6 +22,31 @@ pipenv shell
 - Install required libraries from the `Pipfile.lock`:
 ```bash
 pipenv install
+```
+
+OR
+
+- Using pre-installed "venv" to create Virtual Environment:
+```bash
+python -m venv .venv
+```
+
+- Activate the Virtual Environment:
+```bash
+.venv/Scripts/activate.ps1
+```
+
+- Install all requirements from `requirements.txt`:
+```bash
+pip install -r requirements.txt
+```
+
+### Pre-requisites:
+- Updations Required in .env file for auth, db,etc.
+
+- Migrations, since we are using postgres, to create all tables in db:
+```bash
+python manage.py migrate
 ```
 
 ### To run the code:
@@ -50,6 +75,6 @@ python manage.py runserver
 
 - **templates**: Contains HTML files for the whole project in a systematic file structure.
 - **media**: The folder where uploaded videos are stored.
-- **db.sqlite3**: The SQLite database storing user data and video information.
 - **Pipfile**: Defines the dependencies used in the project.
 - **Pipfile.lock**: Locks the dependencies to a specific version for consistency across environments.
+- **requirements.txt**: Defines the dependencies used in the project
