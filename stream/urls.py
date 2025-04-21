@@ -2,7 +2,7 @@ from django.urls import path
 from .views import HomeView, UploadVideoView, VideoPlayView, CreateOrJoinRoomView, WatchRoomView, RoomView, LeaveRoomView
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='stream'),
     path('upload/', UploadVideoView.as_view(), name='upload'),
     path('play/<int:video_id>/', VideoPlayView.as_view(), name='video_play'),
     path('create-or-join-room/', CreateOrJoinRoomView.as_view(), name='create_or_join_room'),
