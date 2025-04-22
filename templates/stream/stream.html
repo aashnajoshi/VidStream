@@ -13,7 +13,7 @@
         <!-- Video and Description Section -->
         <div class="col-md-8">
             <div class="video-container mb-4">
-                <video id="video-player" class="w-100" height="auto" style="max-height: 400px;" controls>
+                <video id="video-player" class="w-100" height="auto" style="max-height: 400px;" muted autoplay playsinline controls>
                     <source src="{{ video.video_file.url }}" type="video/mp4">
                 </video>
             </div>
@@ -85,37 +85,75 @@
 <script>
     const roomCode = "{{ room.room_code }}";
     const videoElement = document.getElementById("video-player");
-    const socket = new WebSocket(`ws://${window.location.host}/ws/room/${roomCode}/`);
+    const socket = new WebSocket(
+        `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/ws/room/${roomCode}/`
+    );
+
+    let isSyncing = false;
+    let userInteracted = false;
+    let recentlySeeked = false;
 
     socket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         const action = data.action;
         const time = data.time;
 
-        if (action === 'play') {
-            videoElement.currentTime = time;
-            videoElement.play();
-        } else if (action === 'pause') {
-            videoElement.currentTime = time;
+
+        isSyncing = true;
+
+        if (action === "play") {
+            if (Math.abs(videoElement.currentTime - time) > 0.5) {
+                videoElement.currentTime = time;
+            }
+            videoElement.play().catch(() => {});
+        }
+
+        else if (action === "pause") {
+            if (Math.abs(videoElement.currentTime - time) > 0.5) {
+                videoElement.currentTime = time;
+            }
             videoElement.pause();
+        }
+
+        else if (action === "seek") {
+            recentlySeeked = true;
+            videoElement.currentTime = time;
+            setTimeout(() => {
+                recentlySeeked = false;
+            }, 500);
+        }
+
+        setTimeout(() => {
+            isSyncing = false;
+        }, 300);
+    };
+
+    const send = (action) => {
+        if (userInteracted && !isSyncing) {
+            socket.send(JSON.stringify({
+                action: action,
+                time: videoElement.currentTime
+            }));
         }
     };
 
-    videoElement.onplay = function () {
-        socket.send(JSON.stringify({
-            'action': 'play',
-            'time': videoElement.currentTime
-        }));
-    };
+    videoElement.addEventListener("play", () => {
+        userInteracted = true;
+        send("play");
+    });
 
-    videoElement.onpause = function () {
-        socket.send(JSON.stringify({
-            'action': 'pause',
-            'time': videoElement.currentTime
-        }));
-    };
+    videoElement.addEventListener("pause", () => {
+        userInteracted = true;
+        if (!recentlySeeked) {
+            send("pause");
+        }
+    });
 
-    // Copy link functionality
+    videoElement.addEventListener("seeked", () => {
+        userInteracted = true;
+        send("seek");
+    });
+        // Copy link functionality
     document.getElementById("copyLinkBtn").addEventListener("click", function () {
         navigator.clipboard.writeText(window.location.href);
         alert("Link copied to clipboard!");

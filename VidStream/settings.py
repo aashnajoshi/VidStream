@@ -52,8 +52,7 @@ INSTALLED_APPS = [
     "stream",
 ]
 
-ASGI_APPLICATION = 'VidStream.asgi.application'
-WSGI_APPLICATION = 'VidStream.wsgi.application'
+
 
 CHANNEL_LAYERS = {
     'default': {
@@ -176,5 +175,16 @@ UNFOLD = {
         "show_search": True,
         "show_all_applications": True,
         "navigation": []
+    },
+}
+
+ASGI_APPLICATION = 'VidStream.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }
