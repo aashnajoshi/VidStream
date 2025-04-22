@@ -73,7 +73,7 @@ class VideoPlayView(View):
 class CreateOrJoinRoomView(View):
     def post(self, request):
         action = request.POST.get('action')
-        room_code = request.POST.get('room_code').lower()
+        room_code = request.POST.get('room_code')
 
         if action == 'create':
             room_code = generate_room_code()
