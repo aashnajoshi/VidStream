@@ -5,3 +5,4 @@ __pycache__
 features.txt
 
 media/
+.DS_Store

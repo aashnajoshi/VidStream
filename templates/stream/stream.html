@@ -93,11 +93,17 @@
         const time = data.time;
 
         if (action === 'play') {
-            videoElement.currentTime = time;
+            if (Math.abs(videoElement.currentTime - time) > 0.5) {
+                videoElement.currentTime = time;
+            }
             videoElement.play();
         } else if (action === 'pause') {
-            videoElement.currentTime = time;
+            if (Math.abs(videoElement.currentTime - time) > 0.5) {
+                videoElement.currentTime = time;
+            }
             videoElement.pause();
+        } else if (action === 'seek') {
+            videoElement.currentTime = time;
         }
     };
 
@@ -111,6 +117,13 @@
     videoElement.onpause = function () {
         socket.send(JSON.stringify({
             'action': 'pause',
+            'time': videoElement.currentTime
+        }));
+    };
+
+    videoElement.onseeked = function () {
+        socket.send(JSON.stringify({
+            'action': 'seek',
             'time': videoElement.currentTime
         }));
     };
