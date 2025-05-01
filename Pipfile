@@ -13,6 +13,7 @@ django-allauth = "*"
 django-unfold = "*"
 django-import-export = "*"
 psycopg = {extras = ["binary"], version = "*"}
+daphne = "*"
 
 [dev-packages]
 
