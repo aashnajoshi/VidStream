@@ -18,10 +18,28 @@ class RoomConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         action = text_data_json['action']
-        time = text_data_json['time']
+        time = text_data_json.get('time', None)
+        message = text_data_json.get('message', None)
 
-        # Send message to room group
-        await self.channel_layer.group_send(self.room_group_name, {'type': 'sync_video', 'action': action, 'time': time})
+        if action == "chat" and message:
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    "type": "sync_chat",
+                    "action": "chat",
+                    "message": message,
+                    "username": self.scope["user"].username if self.scope["user"].is_authenticated else "Guest",
+                }
+            )
+        else:
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    "type": "sync_video",
+                    "action": action,
+                    "time": time,
+                }
+            )
 
     async def sync_video(self, event):
         action = event['action']
@@ -30,6 +48,12 @@ class RoomConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({'action': action, 'time': time}))
 
+    async def sync_chat(self, event):
+        await self.send(text_data=json.dumps({
+            "action": "chat",
+            "message": event["message"],
+            "username": event["username"],
+        }))
 # Define your WebSocket URL patterns in the same file
 websocket_urlpatterns = [
     path('ws/room/<str:room_code>/', RoomConsumer.as_asgi()),  # Define your WebSocket path
